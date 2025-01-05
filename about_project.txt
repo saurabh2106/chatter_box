@@ -1,0 +1,30 @@
+Flutter Chat App - chatter_box
+This Flutter Chat App is a feature-rich, real-time messaging application designed to deliver a seamless and interactive communication experience. Developed using the Flutter framework, this app includes several advanced features, making it a comprehensive project for learning and implementing modern mobile app development practices.
+
+Key Features
+Real-time Messaging
+
+Send and receive chat messages instantly.
+Messages are updated in real time for all active users.
+Push Notifications
+
+Receive notifications for new messages, even when the app is closed or running in the background.
+User Authentication
+
+Secure account creation and login functionality.
+Authentication is implemented using a robust backend SDK for enhanced security and scalability.
+Profile Management with Image Upload
+
+Users must upload a profile image during signup.
+Images are uploaded and stored securely.
+Modern UI/UX
+
+Custom-designed widgets and styling ensure an intuitive and visually appealing interface.
+Responsive design for a seamless experience across devices.
+Backend Integration
+
+Connects to a backend using an SDK, simplifying data management and authentication processes.
+Demonstrates an alternative to traditional HTTP requests.
+Scalable Architecture
+
+Modular and scalable codebase following best practices, ensuring maintainability and extensibility.
