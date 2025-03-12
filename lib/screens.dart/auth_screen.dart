@@ -21,6 +21,7 @@ class _AuthScreenState extends State<AuthScreen> {
   final _formKey = GlobalKey<FormState>();
   String _enterEmail = '';
   String _enterpassword = '';
+  String _enterUserName = '';
   File? selectedImage;
 
   final TextEditingController emailController = TextEditingController();
@@ -36,37 +37,20 @@ class _AuthScreenState extends State<AuthScreen> {
           'profile_${DateTime.now().millisecondsSinceEpoch}$fileExt';
       final finalPath = 'chatterBox/$fileName';
 
-      // final userId = supabase.auth.currentUser!.id;
-
-      // Convert File to Uint8List
-      // final fileBytes = await file.readAsBytes();
-
-      // Upload as binary data
       if (selectedImage == null) {
-        print('selectedImage is Null');
+        // debugPrint('❌ selectedImage is Null');
         return null;
       }
-      await Supabase.instance.client.storage
-          .from(bucketName)
-          .upload(
-            finalPath,
-            selectedImage!,
-            // fileBytes,
-            // fileOptions: const FileOptions(upsert: true),
-          )
-          .then(
-            (value) => ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Image uploaded successfully'))),
-          );
 
-      final imageUrl = Supabase.instance.client.storage
-          .from(bucketName)
-          .getPublicUrl(fileName);
+      await supabase.storage.from(bucketName).upload(finalPath, selectedImage!);
 
-      print("✅ Image uploaded successfully: $imageUrl");
+      final imageUrl =
+          supabase.storage.from(bucketName).getPublicUrl(finalPath);
+      // debugPrint("✅ Image uploaded successfully: $imageUrl");
+
       return imageUrl;
-    } catch (error) {
-      print("❌ Upload failed: $error");
+    } catch (error, stackTrace) {
+      debugPrint("❌ Upload failed: $error\nStackTrace: $stackTrace");
       return null;
     }
   }
@@ -84,14 +68,14 @@ class _AuthScreenState extends State<AuthScreen> {
       if (isLogin) {
         final userCredential = await firebase.signInWithEmailAndPassword(
             email: _enterEmail, password: _enterpassword);
-        print(userCredential);
+        // debugPrint(userCredential);
       } else {
         final userCredential = await firebase.createUserWithEmailAndPassword(
             email: _enterEmail, password: _enterpassword);
 
         String? imageUrl;
         if (selectedImage != null) {
-          print('selectedImage: $selectedImage');
+          debugPrint('selectedImage: $selectedImage');
           imageUrl = await uploadImageToSupabase(selectedImage!);
         }
 
@@ -99,11 +83,12 @@ class _AuthScreenState extends State<AuthScreen> {
             .collection("users")
             .doc(userCredential.user!.uid)
             .set({
+          'username': _enterUserName,
           "email": _enterEmail,
-          "profilePhoto": imageUrl,
+          // "profilePhoto": imageUrl,
         });
 
-        print("User signed up with profile photo: $imageUrl");
+        debugPrint("User signed up with profile photo: $imageUrl");
       }
     } on FirebaseException catch (error) {
       ScaffoldMessenger.of(context).clearSnackBars();
@@ -162,6 +147,25 @@ class _AuthScreenState extends State<AuthScreen> {
                           _enterEmail = newValue!;
                         },
                       ),
+                      if (!isLogin)
+                        TextFormField(
+                          // textCapitalization: TextCapitalization.words,
+                          validator: (value) {
+                            if (value == null ||
+                                value.isEmpty ||
+                                value.trim().length < 4) {
+                              return 'Please enter valid username';
+                            }
+                            return null;
+                          },
+                          enableSuggestions: false,
+                          onSaved: (newValue) {
+                            _enterUserName = newValue!;
+                          },
+                          decoration: const InputDecoration(
+                            labelText: 'username',
+                          ),
+                        ),
                       TextFormField(
                         validator: (value) {
                           if (value == null ||

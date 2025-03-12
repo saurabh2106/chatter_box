@@ -1,3 +1,5 @@
+import 'package:chatter_box/screens.dart/chat_messages.dart';
+import 'package:chatter_box/screens.dart/new_messages.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -13,10 +15,15 @@ class ChatScreen extends StatelessWidget {
               onPressed: FirebaseAuth.instance.signOut,
               icon: const Icon(Icons.exit_to_app))
         ],
-        title: const Text('Chat'),
+        title: const Text('Chatter Box'),
       ),
       body: const Center(
-        child: Text('Logged in!!!'),
+        child: Column(
+          children: [
+            Expanded(child: ChatMessages()),
+            NewMessages(),
+          ],
+        ),
       ),
     );
   }

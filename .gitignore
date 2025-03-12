@@ -9,6 +9,16 @@
 .history
 .svn/
 migrate_working_dir/
+*.json
+*.bin
+*.txt
+*.ninja
+*.log
+*.lock
+*.idx
+*.cache
+*.swift
+
 
 # IntelliJ related
 *.iml
@@ -19,7 +29,7 @@ migrate_working_dir/
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
-#.vscode/
+.vscode/
 
 # Flutter/Dart/Pub related
 **/doc/api/
@@ -30,6 +40,12 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+android/app/.cxx/
+android/app/cxx/
+android/app/build/
+android/.gradle/
+android/local.properties
+android/gradle/wrapper/
 
 # Symbolication related
 app.*.symbols
@@ -41,3 +57,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+.gitignore
+macos/Flutter/GeneratedPluginRegistrant.swift
+pubspec.lock
