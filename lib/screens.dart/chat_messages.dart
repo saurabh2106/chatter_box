@@ -1,8 +1,8 @@
-import 'package:chatter_box/widgets/chat_bubble.dart';
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:chatter_box/widgets/chat_bubble.dart';
 
 class ChatMessages extends StatefulWidget {
   const ChatMessages({super.key});
@@ -12,18 +12,18 @@ class ChatMessages extends StatefulWidget {
 }
 
 class _ChatMessagesState extends State<ChatMessages> {
-  void setupPushNotification() async {
-    final fcm = FirebaseMessaging.instance;
-    await fcm.requestPermission();
-    final token = await fcm.getToken();
-    fcm.subscribeToTopic('chat');
-    print('token $token');
-  }
+  final ScrollController _scrollController = ScrollController();
 
-  @override
-  void initState() {
-    setupPushNotification();
-    super.initState();
+  void _scrollToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.easeOut,
+        );
+      }
+    });
   }
 
   @override
@@ -48,24 +48,30 @@ class _ChatMessagesState extends State<ChatMessages> {
 
         final loadedMessages = chatSnapshot.data!.docs;
 
+        _scrollToBottom();
+
         return ListView.builder(
+          controller: _scrollController,
           itemCount: loadedMessages.length,
           itemBuilder: (context, index) {
             final chatMessage = loadedMessages[index].data();
-            final nextMessage = index + 1 < loadedMessages.length
-                ? loadedMessages[index + 1].data()
-                : null;
+            final previousMessage =
+                index > 0 ? loadedMessages[index - 1].data() : null;
 
             final currentMsgUserId = chatMessage['userId'];
-            final nextMsgUserId =
-                nextMessage != null ? nextMessage['userId'] : null;
-            final showProfileImage = currentMsgUserId != nextMsgUserId;
+            final previousMsgUserId =
+                previousMessage != null ? previousMessage['userId'] : null;
+
+            final showProfileImage = previousMsgUserId != currentMsgUserId;
+            final Timestamp timestamp = chatMessage['createAt'];
+            final DateTime dateTime = timestamp.toDate();
+            final String formattedTime = DateFormat('HH:mm').format(dateTime);
 
             return ChatBubble(
               username: chatMessage['userName'],
               message: chatMessage['text'],
               isMe: authenticatedUser.uid == currentMsgUserId,
-              time: '09:00', // Replace with formatted timestamp
+              time: formattedTime,
               profileImage: chatMessage['userImage'] ?? '',
               showProfileImage: showProfileImage,
             );
