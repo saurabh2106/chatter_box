@@ -6,7 +6,8 @@ Chatter Box is a real-time chat application built using Flutter and Firebase. Th
 
 ✅ User Authentication - Email & Password-based authentication via Firebase Authentication
 ✅ Real-time Chat - Send and receive messages instantly
-✅ Profile Picture Upload - Users can upload profile pictures, stored in Supabase Storage✅ User Status Check - Validates user existence and logs them out if necessary
+✅ Profile Picture Upload - Users can upload profile pictures, stored in Supabase Storage
+✅ User Status Check - Validates user existence and logs them out if necessary
 ✅ Simple and Minimal UI - Clean and easy-to-use chat interface
 ✅ Secure Data Storage - User information is stored in Firebase Firestore
 
@@ -20,10 +21,4 @@ Cloud Firestore - Stores user details and chat messages
 
 Supabase Storage - Stores and retrieves profile pictures
 
-Syncfusion Flutter PDF Viewer - For integrating PDF viewing functionality (if required in future)
-
-Flutter Riverpod - State management for better app structure
-
 Path Package - Used for handling file paths while uploading images
-
-Location Package (Optional) - If needed for location-based features
