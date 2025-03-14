@@ -1,16 +1,29 @@
-# chatter_box
+Chatter Box - Flutter Chat App
 
-A new Flutter project.
+Chatter Box is a real-time chat application built using Flutter and Firebase. The app allows users to sign up, log in, and communicate with each other seamlessly. It also supports profile picture uploads using Supabase Storage.
 
-## Getting Started
+**Features
 
-This project is a starting point for a Flutter application.
+✅ User Authentication - Email & Password-based authentication via Firebase Authentication
+✅ Real-time Chat - Send and receive messages instantly
+✅ Profile Picture Upload - Users can upload profile pictures, stored in Supabase Storage✅ User Status Check - Validates user existence and logs them out if necessary
+✅ Simple and Minimal UI - Clean and easy-to-use chat interface
+✅ Secure Data Storage - User information is stored in Firebase Firestore
 
-A few resources to get you started if this is your first Flutter project:
+**Tech Stack & Packages Used
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Flutter - Dart-based UI framework for cross-platform app development
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Firebase Authentication - Handles user sign-in & sign-up
+
+Cloud Firestore - Stores user details and chat messages
+
+Supabase Storage - Stores and retrieves profile pictures
+
+Syncfusion Flutter PDF Viewer - For integrating PDF viewing functionality (if required in future)
+
+Flutter Riverpod - State management for better app structure
+
+Path Package - Used for handling file paths while uploading images
+
+Location Package (Optional) - If needed for location-based features
